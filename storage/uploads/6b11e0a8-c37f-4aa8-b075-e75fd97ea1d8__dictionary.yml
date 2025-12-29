@@ -1,0 +1,61 @@
+dataset_name: sample_healthcare_nl2sql
+description: 'Synthetic healthcare analytics dataset for NL2SQL demos: patients ->
+  encounters -> claims.'
+tables:
+  patients:
+    description: Patient demographics (one row per patient).
+    primary_key:
+    - patient_id
+    columns:
+      patient_id: Unique patient identifier (integer).
+      full_name: Synthetic patient full name.
+      birth_date: Date of birth (YYYY-MM-DD).
+      sex: 'Sex marker: F, M, or X.'
+    pii_columns:
+    - full_name
+  encounters:
+    description: Clinical encounters/visits (many per patient).
+    primary_key:
+    - encounter_id
+    foreign_keys:
+    - column: patient_id
+      references: patients.patient_id
+    columns:
+      encounter_id: Unique encounter identifier (integer).
+      patient_id: Patient identifier (FK to patients).
+      encounter_date: Encounter date (YYYY-MM-DD).
+      department: Department/service line for the encounter.
+  claims:
+    description: Insurance claims tied to encounters (many per encounter).
+    primary_key:
+    - claim_id
+    foreign_keys:
+    - column: encounter_id
+      references: encounters.encounter_id
+    columns:
+      claim_id: Unique claim identifier (integer).
+      encounter_id: Encounter identifier (FK to encounters).
+      payer: Insurance payer responsible for the claim.
+      amount: Claim amount in USD (numeric).
+      status: 'Claim adjudication status: Paid, Denied, Pending.'
+    value_hints:
+      status:
+      - Paid
+      - Denied
+      - Pending
+      payer:
+      - Aetna
+      - BCBS
+      - United
+      - Cigna
+      - Medicare
+      - Medicaid
+      - Self-Pay
+relationships:
+- patients.patient_id = encounters.patient_id
+- encounters.encounter_id = claims.encounter_id
+example_questions:
+- total claim amount by payer
+- denial rate by department
+- average claim amount by department and payer
+- top 5 patients by total claim amount

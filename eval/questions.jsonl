@@ -1,0 +1,6 @@
+{"id":"q1","question":"total claim amount by payer","expected_sql":"SELECT payer, SUM(amount) AS total_amount FROM claims GROUP BY payer ORDER BY total_amount DESC;"}
+{"id":"q2","question":"total claim amount by department","expected_sql":"SELECT e.department, SUM(c.amount) AS total_amount FROM claims c JOIN encounters e ON e.encounter_id = c.encounter_id GROUP BY e.department ORDER BY total_amount DESC;"}
+{"id":"q3","question":"show claim counts by status","expected_sql":"SELECT status, COUNT(*) AS n FROM claims GROUP BY status ORDER BY n DESC;"}
+{"id":"q4","question":"total claim amount by payer for Emergency department","expected_sql":"SELECT c.payer, SUM(c.amount) AS total_amount FROM claims c JOIN encounters e ON e.encounter_id = c.encounter_id WHERE e.department = 'Emergency' GROUP BY c.payer ORDER BY total_amount DESC;"}
+{"id":"q5","question":"denial rate by department as a decimal between 0 and 1","expected_sql":"SELECT e.department, SUM(CASE WHEN c.status = 'Denied' THEN 1 ELSE 0 END)::numeric / NULLIF(COUNT(*),0) AS denial_rate FROM claims c JOIN encounters e ON e.encounter_id = c.encounter_id GROUP BY e.department;"}
+

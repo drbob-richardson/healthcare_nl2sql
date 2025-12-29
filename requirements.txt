@@ -1,0 +1,12 @@
+streamlit
+pandas
+duckdb
+pyyaml
+sqlparse
+
+langchain>=1.2.0
+langchain-community
+langchain-openai
+langchain-text-splitters
+chromadb
+SQLAlchemy==2.0.44
