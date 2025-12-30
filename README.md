@@ -18,6 +18,7 @@ This project focuses on **productized applied AI**, not just model calls.
 
 ## Architecture
 
+```text
 Streamlit UI
 │
 ├── SQLite (State DB)
@@ -40,29 +41,7 @@ Streamlit UI
     ├── LIMIT wrapping
     ├── Workspace isolation
     └── Monitoring & feedback
-
-Streamlit UI
-│
-├── SQLite (State DB)
-│   ├── datasets
-│   ├── chat_sessions / chat_messages
-│   ├── saved_views / saved_plots
-│   ├── llm_runs / llm_feedback
-│   └── eval_questions / eval_results
-│
-├── DuckDB (Per-Dataset)
-│   └── Uploaded CSV tables
-│
-├── LLM Agent
-│   ├── Schema + dictionary grounding
-│   ├── SQL generation (read-only enforced)
-│   └── Tool calls captured & logged
-│
-└── Safety & Ops
-    ├── SQL validation (SELECT / CTE only)
-    ├── LIMIT wrapping
-    ├── Workspace isolation
-    └── Monitoring & feedback
+```
 
 DuckDB is used strictly for analytics execution.
 SQLite is used as an application state database for persistence, monitoring, and evaluation.
